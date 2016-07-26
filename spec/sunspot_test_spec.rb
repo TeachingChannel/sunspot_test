@@ -30,7 +30,7 @@ describe SunspotTest do
 
   describe ".start_sunspot_server" do
     context "if server is already started" do
-      before(:each) { SunspotTest.stub(:solr_running? => true) }
+      before(:each) { SunspotTest.stub!(:solr_running? => true) }
 
       it "does not try to spin up another server" do
         Kernel.should_not_receive(:fork)
@@ -40,14 +40,14 @@ describe SunspotTest do
 
     context "if the server has NOT been started" do
       before(:all) do
-        SunspotTest.stub(:wait_until_solr_starts) { true }
+        SunspotTest.stub!(:wait_until_solr_starts) { true }
       end
 
       before(:each) do
         SunspotTest.server = nil
 
         fake_server = mock("server")
-        SunspotTest.stub(:server) { fake_server }
+        SunspotTest.stub!(:server) { fake_server }
       end
 
       # was getting funky issues when the test was broken up
@@ -124,7 +124,7 @@ describe SunspotTest do
 
     describe ".solr_running" do
       context "if solr is running" do
-        before(:each) { Net::HTTP.stub(:get).and_return(true) }
+        before(:each) { Net::HTTP.stub!(:get).and_return(true) }
 
         it "returns true" do
           SunspotTest.send(:solr_running?).should eq(true)
